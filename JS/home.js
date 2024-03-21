@@ -76,20 +76,41 @@ window.onload = function () {
 
 // Fonction pour créer dynamiquement un encart représentant un document
 function createDocumentCard(doc) {
-    const documentCard = document.createElement('div');
-    documentCard.classList.add('document-card');
 
     const documentTitle = doc.paperName;
     const documentContent = doc.paperDescription;
 
-    const titleElement = document.createElement('h3');
-    titleElement.textContent = documentTitle;
+    // Créer l'élément de carte
+    const documentCard = document.createElement('col');
+    documentCard.classList.add('card', 'mx-2', 'bg-light', 'text-black', 'h-100');
 
-    const contentElement = document.createElement('p');
-    contentElement.textContent = documentContent;
+    // // Créer l'en-tête de la carte
+    const cardHeader = document.createElement('div');
+    cardHeader.classList.add('card-header');
+    cardHeader.textContent = documentTitle;
 
-    documentCard.appendChild(titleElement);
-    documentCard.appendChild(contentElement);
+    // Créer le corps de la carte
+    const cardBody = document.createElement('div');
+    cardBody.classList.add('card-body');
+
+    // Créer le titre de la carte
+    const cardTitle = document.createElement('h5');
+    cardTitle.classList.add('card-title');
+    cardTitle.textContent = documentTitle;
+
+    // Créer le texte de la carte
+    const cardText = document.createElement('p');
+    cardText.classList.add('card-text');
+    cardText.textContent = capitalizedFirstLetter(documentContent);
+
+    // Ajouter les éléments au corps de la carte
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardText);
+
+    // Ajouter l'en-tête et le corps à la carte
+    documentCard.appendChild(cardHeader);
+    documentCard.appendChild(cardBody);
+
 
     return documentCard;
 }
