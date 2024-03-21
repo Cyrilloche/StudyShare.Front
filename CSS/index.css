@@ -1,13 +1,14 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     background: #f2f2f2;
 }
-form{
+
+form {
     width: 50%;
     background-color: #ffffff;
     padding: 50px;
@@ -15,7 +16,7 @@ form{
     margin-top: 150px;
 }
 
-.form-control{
+.form-control {
     color: #000000;
     border-bottom-color: #000000;
     box-shadow: none !important;
@@ -24,20 +25,20 @@ form{
     border-radius: 4px 4px 0 0;
 }
 
-.form-text a{
+.form-text a {
     text-decoration: none;
     color: #b9b9b9;
 }
 
-.form-text a:hover{
+.form-text a:hover {
     color: #000000;
 }
 
-.form-control:focus{
-    border-bottom-color:#b9b9b9 ;
+.form-control:focus {
+    border-bottom-color: #b9b9b9;
 }
 
-.btn-primary{
+.btn-primary {
     width: 100%;
     border: none;
     border-radius: 50px;
@@ -45,28 +46,28 @@ form{
     color: #000000;
 }
 
-.btn-primary:hover{
+.btn-primary:hover {
     background-color: #b9b9b9;
 }
 
 
-h4{
+h4 {
     font-size: 2rem !important;
     font-weight: 700;
 }
 
-.form-label{
+.form-label {
     font-family: 800 !important;
 }
 
-@media (max-width : 600px){
-    form{
+@media (max-width : 600px) {
+    form {
         width: 100%;
     }
 }
 
-@media (min-width : 1800px){
-    form{
+@media (min-width : 1800px) {
+    form {
         width: 25%;
     }
 }
