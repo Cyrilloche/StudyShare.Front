@@ -68,10 +68,8 @@ async function fetchAndDisplayDocuments() {
     }
 }
 
-// Appel des fonctions au chargement de la page
 window.onload = function () {
-    fetchUserData(); // Récupérer les données de l'utilisateur
-    fetchAndDisplayDocuments(); // Récupérer et afficher les documents de l'utilisateur
+    fetchAndDisplayDocuments();
 }
 
 // Fonction pour créer dynamiquement un encart représentant un document
@@ -82,7 +80,7 @@ function createDocumentCard(doc) {
 
     // Créer l'élément de carte
     const documentCard = document.createElement('col');
-    documentCard.classList.add('card', 'mx-2', 'bg-light', 'text-black', 'h-100');
+    documentCard.classList.add('card', 'm-2', 'bg-light', 'text-black', 'h-100');
 
     // // Créer l'en-tête de la carte
     const cardHeader = document.createElement('div');

@@ -9,6 +9,7 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../CSS/main.css">
+    <link rel="stylesheet" href="../CSS/dashboard.css">
 </head>
 
 <body>
@@ -16,7 +17,7 @@
         <header>
             <nav class="navbar navbar-light bg-light">
                 <div>
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="../HTML/home.html">
                         <img src="../images/folder-tree.svg" width="30" height="30" class="d-inline-block align-top"
                             alt="">
                         StudyShare
@@ -25,21 +26,127 @@
                 <div>
                     <a class="mx-4" href="dashbord.html"><img src="../images/id-card.svg" width="30" height="30"
                             alt="dashboard-user"></a>
-                    <a class="mx-2" href="#"><img src="../images/leave.svg" width="30" height="30" alt=""></a>
+                    <a class="mx-2" href="../HTML/index.html"><img src="../images/leave.svg" width="30" height="30"
+                            alt=""></a>
                 </div>
             </nav>
         </header>
 
 
-        <nav class="navbar navbar-expand-lg bg-light mx-4 mt-4 rounded-3">
+        <nav class="navbar navbar-expand-lg bg-light mx-2 mt-4 rounded-3">
             <div class="container-fluid">
                 <div>
-                    <h2>Espace de <span id="welcomeUser"></span></h2>
+                    <h2>Mon espace</h2>
                 </div>
             </div>
         </nav>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="../js/dashboard.js" defer></script>
+
+        <div class="container-content mt-4">
+            <div class="row justify-content-center">
+                <div class="d-inline col-2">
+                    <div class="user rounded-3">
+                        <div class="user_avatar">
+                            <img src="../IMAGES/avatar_male.svg" width="200" height="200" alt="avatar_male">
+                        </div>
+                        <div class="user_name text-center">
+                            <h2><span id="welcomeUser"></span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-inline col-6">
+                    <div class="user_information rounded-3">
+                        <nav>
+                            <div class="nav nav-tabs">
+                                <button class="nav-link active" id="nav-informations-tab" data-bs-toggle="tab"
+                                    data-bs-target="#nav-informations" type="button" role="tab"
+                                    aria-controls="nav-informations" aria-selected="true">Mes informations</button>
+                                <button class="nav-link" id="nav-preferences-tab" data-bs-toggle="tab"
+                                    data-bs-target="#nav-preferences" type="button" role="tab"
+                                    aria-controls="nav-preferences" aria-selected="false">Mes préférences</button>
+                                <button class="nav-link" id="nav-security-tab" data-bs-toggle="tab"
+                                    data-bs-target="#nav-security" type="button" role="tab" aria-controls="nav-security"
+                                    aria-selected="false">Sécurité</button>
+                            </div>
+                            <div class="tab-content p-2" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-informations" role="tabpanel"
+                                    aria-labelledby="nav-informations-tab" tabindex="0">
+                                    <div class="form">
+                                        <form id="updateUserInformation">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <label for="lastname"></label>
+                                                    <input type="text" id="lastname" name="lastname"
+                                                        class="form-control" placeholder="Nom" />
+                                                </div>
+                                                <div class="col-5">
+                                                    <label for="firstname"></label>
+                                                    <input class="form-control" type="text" id="firstname"
+                                                        name="firstname" placeholder="Prénom" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-5"><label for="school"></label>
+                                                    <input class="form-control" type="text" id="school" name="school"
+                                                        placeholder="École" /></div>
+                                                <div class="col-5"><label for="schoolClass"></label>
+                                                    <input class="form-control" type="text" id="schoolClass"
+                                                        name="schoolClass" placeholder="Classe" /></div>
+                                            </div>
+                                            <div class="mx-auto">
+                                                <button type="submit"
+                                                    class="btn btn-secondary mt-3">Enregistrer</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-preferences" role="tabpanel"
+                                    aria-labelledby="nav-preferences-tab" tabindex="0">En construction..</div>
+                                <div class="tab-pane fade" id="nav-security" role="tabpanel"
+                                    aria-labelledby="nav-security-tab" tabindex="0">
+                                    <div class="form">
+                                        <form id="updateUserPassword">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <label for="email" class="form-label"></label>
+                                                    <input class="form-control" type="email" id="email" name="email"
+                                                        aria-describedby="emailHelp" placeholder="Adresse mail"
+                                                        autocomplete="no">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-5"><label for="school"></label>
+                                                    <label for="password" class="form-label"></label>
+                                                    <input type="password" class="form-control" id="password"
+                                                        name="password" placeholder="Mot de passe" autocomplete="no">
+                                                </div>
+                                                <div class="col-5">
+                                                    <label for="password_confirm" class="form-label"></label>
+                                                    <input type="password" class="form-control" id="password_confirm"
+                                                        name="password_confirm" placeholder="Confirmer mot de passe">
+                                                </div>
+                                            </div>
+                                            <div class="mx-auto">
+                                                <button type="submit"
+                                                    class="btn btn-secondary mt-3">Enregistrer</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/dashboard.js" defer></script>
 </body>
 
 </html>
