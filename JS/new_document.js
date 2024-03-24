@@ -264,7 +264,16 @@ function capitalizedFirstLetter(word) {
 
 async function selectFile() {
     try {
-        let [fileHandle] = await window.showOpenFilePicker();
+        let [fileHandle] = await window.showOpenFilePicker({
+            types: [{
+                description: 'Files',
+                accept: {
+                    'file/*': ['.pdf']
+                }
+            }, ],
+            excludeAcceptAllOption: true,
+            multiple: false
+        });
         let file = await fileHandle.getFile();
         let fileName = file.name;
         console.log('Nom du fichier sélectionné :', fileName);
