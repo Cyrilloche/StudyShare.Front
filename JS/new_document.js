@@ -1,8 +1,6 @@
 const token = getTokenFromLocalStorage();
 const userId = returnUserId();
 
-const path = `C:\\Users\\stagiaire\\Documents\\StudyShare\\2024`;
-
 let checkedKeywords = [];
 let checkedClasses = [];
 let selectedFile;
@@ -94,6 +92,46 @@ async function fetchClasses() {
     }
 }
 
+/////////////////////////////////// FILE ///////////////////////////////////
+// Fonction sélection du fichier 
+async function selectFile() {
+    try {
+        let [fileHandle] = await window.showOpenFilePicker({
+            types: [{
+                description: 'Files',
+                accept: {
+                    'file/*': ['.pdf']
+                }
+            }, ],
+            excludeAcceptAllOption: true,
+            multiple: false
+        });
+        let file = await fileHandle.getFile();
+        let fileName = file.name;
+        console.log('Nom du fichier sélectionné :', fileName);
+        selectedFile = file;
+    } catch (error) {
+        console.error('Erreur lors de la sélection du fichier :', error);
+        throw error;
+    }
+}
+
+// Fonction sauvegarde du fichier
+async function saveFile(updatedFile, extensionFile) {
+    try {
+        const directoryHandle = await window.showDirectoryPicker();
+        const fileHandle = await directoryHandle.getFileHandle(updatedFile.name + extensionFile, {
+            create: true
+        });
+        const writableStream = await fileHandle.createWritable();
+        await writableStream.write(updatedFile);
+        await writableStream.close();
+        console.log('Fichier sauvegardé avec succès');
+    } catch (error) {
+        console.error('Erreur lors de la sauvegarde du fichier :', error);
+    }
+}
+
 /////////////////////////////////// POST ///////////////////////////////////
 document.getElementById('create-new-document').addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -105,6 +143,17 @@ document.getElementById('create-new-document').addEventListener('submit', async 
     const formDataDocument = new FormData(this);
     const paperName = formDataDocument.get('file-name');
     const paperDescription = formDataDocument.get('file-description');
+    const date = Date.now();
+
+    let extensionFile = getExtensionFile(selectedFile.name);
+    const newFileName = date + '_' + paperName;
+
+    // Créer un nouvel objet File avec le nouveau nom
+    const updatedFile = new File([selectedFile], newFileName, {
+        type: selectedFile.type
+    });
+
+    saveFile(updatedFile, extensionFile);
 
     // Envoyer la requête POST pour créer un nouveau document
     axios.post(paperEndPoint, {
@@ -114,16 +163,7 @@ document.getElementById('create-new-document').addEventListener('submit', async 
         })
         .then((response) => {
             const paperId = response.data.paperId;
-            const newFileName = response.data.paperName;
             console.log('ID du document créé :', paperId);
-
-            // Créer un nouvel objet File avec le nouveau nom
-            const updatedFile = new File([selectedFile], newFileName, {
-                type: selectedFile.type
-            });
-
-            let extensionFile = getExtensionFile(selectedFile.name);
-            saveFile(updatedFile, extensionFile);
 
             const keywordsData = checkedKeywords;
             const classLevelsData = checkedClasses;
@@ -147,12 +187,6 @@ document.getElementById('create-new-document').addEventListener('submit', async 
             console.error('Erreur lors de la création du document :', error);
         });
 });
-
-
-
-
-
-
 
 
 /////////////////////////////////// HTML ///////////////////////////////////
@@ -247,7 +281,6 @@ function displayClasses(classLevels) {
     })
 }
 
-
 /////////////////////////////////// TOOLS ///////////////////////////////////
 // Fonction 1ère lettre capitale
 function capitalizedFirstLetter(word) {
@@ -257,45 +290,6 @@ function capitalizedFirstLetter(word) {
         return word.charAt(0).toUpperCase() + word.slice(1);
     }
 
-}
-
-// Fonction sélection du fichier 
-async function selectFile() {
-    try {
-        let [fileHandle] = await window.showOpenFilePicker({
-            types: [{
-                description: 'Files',
-                accept: {
-                    'file/*': ['.pdf']
-                }
-            }, ],
-            excludeAcceptAllOption: true,
-            multiple: false
-        });
-        let file = await fileHandle.getFile();
-        let fileName = file.name;
-        console.log('Nom du fichier sélectionné :', fileName);
-        selectedFile = file;
-    } catch (error) {
-        console.error('Erreur lors de la sélection du fichier :', error);
-        throw error;
-    }
-}
-
-// Fonction sauvegarde du fichier
-async function saveFile(updatedFile, extensionFile) {
-    try {
-        const directoryHandle = await window.showDirectoryPicker();
-        const fileHandle = await directoryHandle.getFileHandle(updatedFile.name + extensionFile, {
-            create: true
-        });
-        const writableStream = await fileHandle.createWritable();
-        await writableStream.write(updatedFile);
-        await writableStream.close();
-        console.log('Fichier sauvegardé avec succès');
-    } catch (error) {
-        console.error('Erreur lors de la sauvegarde du fichier :', error);
-    }
 }
 
 // Fonction récupération de l'extension
