@@ -11,6 +11,7 @@ window.onload = function () {
 };
 
 
+/////////////////////////////////// CONFIG ///////////////////////////////////
 // Récupération de l'id user à partir du token
 function getUserIdFromToken(token) {
     const tokenParts = token.split('.');
@@ -30,6 +31,7 @@ function returnUserId() {
     return userId;
 }
 
+/////////////////////////////////// GET ///////////////////////////////////
 // Fonction pour récupérer les données utilisateur
 async function fetchUserData(userId) {
     try {
@@ -92,6 +94,60 @@ async function fetchClasses() {
     }
 }
 
+/////////////////////////////////// POST ///////////////////////////////////
+document.getElementById('create-new-document').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    // End points 
+    const paperEndPoint = 'http://localhost:5037/api/Paper';
+    const paperKeywordsEndPoint = 'http://localhost:5037/api/PaperKeyword';
+
+    // Récupération des données du formulaire
+    const formDataDocument = new FormData(this);
+    const paperName = formDataDocument.get('file-name');
+    const paperDescription = formDataDocument.get('file-description');
+
+    // Envoyer la requête POST pour créer un nouveau document
+    axios.post(paperEndPoint, {
+            paperName,
+            paperDescription,
+            userId: userId
+        })
+        .then((response) => {
+            const paperId = response.data.paperId;
+            console.log('ID du document créé :', paperId);
+
+            const keywordsData = checkedKeywords;
+            const classLevelsData = checkedClasses;
+
+            axios.post(`http://localhost:5037/api/PaperKeyword?paperId=${paperId}`, keywordsData)
+                .then((response) => {
+                    console.log('Réponse de la requête PaperKeyword :', response);
+                })
+                .catch((error) => {
+                    console.error('Erreur lors de la requête PaperKeyword :', error);
+                });
+            axios.post(`http://localhost:5037/api/PaperClassLevel?paperId=${paperId}`, classLevelsData)
+                .then((response) => {
+                    console.log('Réponse de la requête PaperClassLevel :', response);
+                })
+                .catch((error) => {
+                    console.error('Erreur lors de la requête PaperClassLevel :', error);
+                });
+        })
+        .catch((error) => {
+            console.error('Erreur lors de la création du document :', error);
+        });
+});
+
+
+
+
+
+
+
+
+/////////////////////////////////// HTML ///////////////////////////////////
 // Fonction création descheckbox des mots-clés
 function createCheckboxListKeyword(keyword) {
     const keywordToDisplayName = keyword.keywordName;
@@ -142,7 +198,7 @@ function createCheckboxListClassLevel(classe) {
     classLevel.appendChild(checkbox);
 
     const textSpan = document.createElement('span');
-    textSpan.textContent = ' ' + classeToDisplayName;
+    textSpan.textContent = ' ' + capitalizedFirstLetter(classeToDisplayName);
 
     classLevel.appendChild(textSpan);
 
@@ -157,6 +213,7 @@ function createCheckboxListClassLevel(classe) {
             }
         }
         console.log(checkedClasses);
+        console.log(typeof (checkedClasses))
     });
 
     return classLevel;
@@ -182,6 +239,8 @@ function displayClasses(classLevels) {
     })
 }
 
+
+/////////////////////////////////// TOOLS ///////////////////////////////////
 // Fonction 1ère lettre capitale
 function capitalizedFirstLetter(word) {
     if (!isNaN(parseInt(word.charAt(0)))) {

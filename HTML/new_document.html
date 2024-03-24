@@ -43,66 +43,65 @@
 
         <div class="container-content mt-4">
             <div class="container-form p-2 col-8 rounded-3 mx-auto border bg-light border-dark">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="mb-2">
-                            <input type="text" placeholder="Nom du fichier">
-                            <div class="row">
-                                <div class="mb-2 col-6">
-                                    <textarea class="form-control" name="file-description" id="file-description"
-                                        rows="3" placeholder="Description du fichier"></textarea>
+                <form id="create-new-document">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-2">
+                                <input id="file-name" name="file-name" type="text" placeholder="Nom du fichier">
+                                <div class="row">
+                                    <div class="mb-2 col-6">
+                                        <textarea class="form-control" name="file-description" id="file-description"
+                                            rows="3" placeholder="Description du fichier"></textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6 mb-2">
-                                    <form id="uploadForm" novalidate>
+                                <div class="row">
+                                    <div class="col-6 mb-2">
                                         <input type="file" id="fileInput" name="file">
-                                    </form>
-
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="d-inline col-6 dropdown open  ">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        id="dropdown-keywords" data-bs-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Mots-clés
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown-keywords">
+                                        <ul class=" list-group keyword-options">
+                                            <div id="keywordsContainer"></div>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="d-inline col-6 dropdown open ">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        id="dropdown-classLevel" data-bs-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Classes
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown-classLevel">
+                                        <ul class="classes-options">
+                                            <div id="classesContainer"></div>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="d-inline col-6 dropdown open  ">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown-keywords"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Mots-clés
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdown-keywords">
-                                    <ul class=" list-group keyword-options">
-                                        <div id="keywordsContainer"></div>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="d-inline col-6 dropdown open ">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown-classLevel"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Classes
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdown-classLevel">
-                                    <ul class="classes-options">
-                                        <div id="classesContainer"></div>
-                                    </ul>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="d-grid gap-2 col-3 mx-auto">
+                            <button type="submit" name="" id="" class="btn btn-secondary">
+                                Envoyer
+                            </button>
                         </div>
                     </div>
-
-                </div>
-                <div class="row">
-                    <div class="d-grid gap-2 col-3 mx-auto">
-                        <button type="button" name="" id="" class="btn btn-secondary">
-                            Envoyer
-                        </button>
-                    </div>
-
-                </div>
+                </form>
             </div>
         </div>
 
-
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script type="module" src="../js/new_document.js" defer></script>
 </body>
