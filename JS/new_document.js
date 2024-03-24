@@ -102,19 +102,24 @@ async function selectFile() {
                 accept: {
                     'file/*': ['.pdf']
                 }
-            }, ],
+            }],
             excludeAcceptAllOption: true,
             multiple: false
         });
         let file = await fileHandle.getFile();
         let fileName = file.name;
         console.log('Nom du fichier sélectionné :', fileName);
+
+        // Mise à jour de la valeur de l'élément <textarea> avec l'ID selectedFileName
+        document.getElementById('selectedFileName').innerText = fileName;
+
         selectedFile = file;
     } catch (error) {
         console.error('Erreur lors de la sélection du fichier :', error);
         throw error;
     }
 }
+
 
 // Fonction sauvegarde du fichier
 async function saveFile(updatedFile, extensionFile) {
