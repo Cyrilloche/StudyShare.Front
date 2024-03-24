@@ -50,7 +50,6 @@ async function fetchUserData(userId) {
         }
 
         const userData = await response.json();
-        console.log(userData);
         return userData;
     } catch (error) {
         console.error('Erreur lors de la récupération des données utilisateur', error);
@@ -68,7 +67,6 @@ async function fetchKeywords() {
         }
 
         const keywords = await response.json();
-        console.log(keywords);
 
         displayKeywords(keywords);
 
@@ -88,7 +86,6 @@ async function fetchClasses() {
         }
 
         const classLevels = await response.json();
-        console.log(classLevels);
 
         displayClasses(classLevels);
 
@@ -119,14 +116,14 @@ document.getElementById('create-new-document').addEventListener('submit', async 
             const paperId = response.data.paperId;
             const newFileName = response.data.paperName;
             console.log('ID du document créé :', paperId);
-            console.log(response.data.paperName);
 
             // Créer un nouvel objet File avec le nouveau nom
             const updatedFile = new File([selectedFile], newFileName, {
                 type: selectedFile.type
             });
-            console.log(updatedFile);
-            saveFile(updatedFile);
+
+            let extensionFile = getExtensionFile(selectedFile.name);
+            saveFile(updatedFile, extensionFile);
 
             const keywordsData = checkedKeywords;
             const classLevelsData = checkedClasses;
@@ -180,7 +177,7 @@ function createCheckboxListKeyword(keyword) {
 
     checkbox.addEventListener('change', function () {
         if (checkbox.checked) {
-            console.log('Mot-clé coché avec l\'ID:', checkbox.value);
+            //console.log('Mot-clé coché avec l\'ID:', checkbox.value);
             checkedKeywords.push(checkbox.value);
         } else {
             const index = checkedKeywords.indexOf(checkbox.value);
@@ -188,7 +185,7 @@ function createCheckboxListKeyword(keyword) {
                 checkedKeywords.splice(index, 1);
             }
         }
-        console.log(checkedKeywords);
+        //console.log(checkedKeywords);
     });
 
     return list;
@@ -215,7 +212,7 @@ function createCheckboxListClassLevel(classe) {
 
     checkbox.addEventListener('change', function () {
         if (checkbox.checked) {
-            console.log('Classe cochée avec l\'ID:', checkbox.value);
+            //console.log('Classe cochée avec l\'ID:', checkbox.value);
             checkedClasses.push(checkbox.value);
         } else {
             const index = checkedClasses.indexOf(checkbox.value);
@@ -223,8 +220,8 @@ function createCheckboxListClassLevel(classe) {
                 checkedClasses.splice(index, 1);
             }
         }
-        console.log(checkedClasses);
-        console.log(typeof (checkedClasses))
+        //console.log(checkedClasses);
+        //console.log(typeof (checkedClasses))
     });
 
     return classLevel;
@@ -262,6 +259,7 @@ function capitalizedFirstLetter(word) {
 
 }
 
+// Fonction sélection du fichier 
 async function selectFile() {
     try {
         let [fileHandle] = await window.showOpenFilePicker({
@@ -278,18 +276,17 @@ async function selectFile() {
         let fileName = file.name;
         console.log('Nom du fichier sélectionné :', fileName);
         selectedFile = file;
-        console.log(selectedFile.name);
     } catch (error) {
         console.error('Erreur lors de la sélection du fichier :', error);
         throw error;
     }
 }
 
-// Fonction pour sauvegarder le fichier mis à jour à un emplacement spécifié
-async function saveFile(updatedFile) {
+// Fonction sauvegarde du fichier
+async function saveFile(updatedFile, extensionFile) {
     try {
         const directoryHandle = await window.showDirectoryPicker();
-        const fileHandle = await directoryHandle.getFileHandle(updatedFile.name, {
+        const fileHandle = await directoryHandle.getFileHandle(updatedFile.name + extensionFile, {
             create: true
         });
         const writableStream = await fileHandle.createWritable();
@@ -299,4 +296,20 @@ async function saveFile(updatedFile) {
     } catch (error) {
         console.error('Erreur lors de la sauvegarde du fichier :', error);
     }
+}
+
+// Fonction récupération de l'extension
+function getExtensionFile(fileName) {
+    let point = '.';
+    let extension = "";
+    for (let i = fileName.length; i >= 0; i--) {
+        if (fileName[i] == point) {
+            extension += fileName[i];
+            for (let j = i + 1; j < fileName.length; j++) {
+                extension += fileName[j];
+            }
+            break;
+        }
+    }
+    return extension;
 }
