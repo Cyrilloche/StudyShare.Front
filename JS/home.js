@@ -1,3 +1,10 @@
+const token = getTokenFromLocalStorage();
+const userId = returnUserId();
+
+window.onload = function () {
+    fetchAndDisplayDocuments();
+}
+
 // Récupération de l'id user à partir du token
 function getUserIdFromToken(token) {
     const tokenParts = token.split('.');
@@ -20,9 +27,6 @@ function returnUserId() {
 // Fonction pour récupérer les données utilisateur
 async function fetchUserData() {
     try {
-        const token = getTokenFromLocalStorage(); // Récupérer le token depuis le stockage local
-        const userId = returnUserId(); // Récupérer l'identifiant de l'utilisateur
-
         const response = await fetch(`http://localhost:5037/api/User/${userId}`, {
             method: 'GET',
             headers: {
@@ -45,9 +49,6 @@ async function fetchUserData() {
 // Fonction pour récupérer et afficher les documents
 async function fetchAndDisplayDocuments() {
     try {
-        const token = getTokenFromLocalStorage();
-        const userId = returnUserId();
-
         const response = await fetch(`http://localhost:5037/api/Paper/authorId?authorId=${userId}`, {
             method: 'GET',
             headers: {
@@ -68,21 +69,22 @@ async function fetchAndDisplayDocuments() {
     }
 }
 
-window.onload = function () {
-    fetchAndDisplayDocuments();
-}
+
 
 // Fonction pour créer dynamiquement un encart représentant un document
 function createDocumentCard(doc) {
-
     const documentTitle = doc.paperName;
     const documentContent = doc.paperDescription;
 
     // Créer l'élément de carte
-    const documentCard = document.createElement('col');
-    documentCard.classList.add('card', 'm-2', 'bg-light', 'text-black', 'h-100');
+    const documentCard = document.createElement('div');
+    documentCard.classList.add('col-3', 'p-2');
 
-    // // Créer l'en-tête de la carte
+    // Créer la carte Bootstrap
+    const card = document.createElement('div');
+    card.classList.add('card', 'bg-light', 'text-black', 'h-100');
+
+    // Créer l'en-tête de la carte
     const cardHeader = document.createElement('div');
     cardHeader.classList.add('card-header');
     cardHeader.textContent = documentTitle;
@@ -106,12 +108,15 @@ function createDocumentCard(doc) {
     cardBody.appendChild(cardText);
 
     // Ajouter l'en-tête et le corps à la carte
-    documentCard.appendChild(cardHeader);
-    documentCard.appendChild(cardBody);
+    card.appendChild(cardHeader);
+    card.appendChild(cardBody);
 
+    // Ajouter la carte à l'élément de carte
+    documentCard.appendChild(card);
 
     return documentCard;
 }
+
 
 function addDocumentCardsToPage(documents) {
     const documentsContainer = document.getElementById('documentsContainer');

@@ -1,15 +1,18 @@
 const token = getTokenFromLocalStorage();
 const userId = returnUserId();
 
+const path = `C:\\Users\\stagiaire\\Documents\\StudyShare\\2024`;
+
 let checkedKeywords = [];
 let checkedClasses = [];
+let selectedFile;
+
 
 window.onload = function () {
     fetchUserData(userId);
     fetchKeywords();
     fetchClasses();
 };
-
 
 /////////////////////////////////// CONFIG ///////////////////////////////////
 // Récupération de l'id user à partir du token
@@ -100,7 +103,6 @@ document.getElementById('create-new-document').addEventListener('submit', async 
 
     // End points 
     const paperEndPoint = 'http://localhost:5037/api/Paper';
-    const paperKeywordsEndPoint = 'http://localhost:5037/api/PaperKeyword';
 
     // Récupération des données du formulaire
     const formDataDocument = new FormData(this);
@@ -115,7 +117,16 @@ document.getElementById('create-new-document').addEventListener('submit', async 
         })
         .then((response) => {
             const paperId = response.data.paperId;
+            const newFileName = response.data.paperName;
             console.log('ID du document créé :', paperId);
+            console.log(response.data.paperName);
+
+            // Créer un nouvel objet File avec le nouveau nom
+            const updatedFile = new File([selectedFile], newFileName, {
+                type: selectedFile.type
+            });
+            console.log(updatedFile);
+            saveFile(updatedFile);
 
             const keywordsData = checkedKeywords;
             const classLevelsData = checkedClasses;
@@ -249,4 +260,34 @@ function capitalizedFirstLetter(word) {
         return word.charAt(0).toUpperCase() + word.slice(1);
     }
 
+}
+
+async function selectFile() {
+    try {
+        let [fileHandle] = await window.showOpenFilePicker();
+        let file = await fileHandle.getFile();
+        let fileName = file.name;
+        console.log('Nom du fichier sélectionné :', fileName);
+        selectedFile = file;
+        console.log(selectedFile.name);
+    } catch (error) {
+        console.error('Erreur lors de la sélection du fichier :', error);
+        throw error;
+    }
+}
+
+// Fonction pour sauvegarder le fichier mis à jour à un emplacement spécifié
+async function saveFile(updatedFile) {
+    try {
+        const directoryHandle = await window.showDirectoryPicker();
+        const fileHandle = await directoryHandle.getFileHandle(updatedFile.name, {
+            create: true
+        });
+        const writableStream = await fileHandle.createWritable();
+        await writableStream.write(updatedFile);
+        await writableStream.close();
+        console.log('Fichier sauvegardé avec succès');
+    } catch (error) {
+        console.error('Erreur lors de la sauvegarde du fichier :', error);
+    }
 }
