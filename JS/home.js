@@ -74,7 +74,9 @@ async function fetchAndDisplayDocuments() {
 // Fonction pour créer dynamiquement un encart représentant un document
 function createDocumentCard(doc) {
     const documentTitle = doc.paperName;
-    const documentContent = doc.paperDescription;
+    const documentDateUploaded = doc.paperUploadDate;
+    const documentDescription = doc.paperDescription;
+    console.log(typeof (documentDateUploaded));
 
     // Créer l'élément de carte
     const documentCard = document.createElement('div');
@@ -84,32 +86,38 @@ function createDocumentCard(doc) {
     const card = document.createElement('div');
     card.classList.add('card', 'bg-light', 'text-black', 'h-100');
 
-    // Créer l'en-tête de la carte
+    // Créer le header de la carte
     const cardHeader = document.createElement('div');
     cardHeader.classList.add('card-header');
-    cardHeader.textContent = documentTitle;
+
+    //Créer le titre de la carte
+    const cardHeaderTitle = document.createElement('h4');
+    cardHeaderTitle.textContent = documentTitle;
 
     // Créer le corps de la carte
     const cardBody = document.createElement('div');
     cardBody.classList.add('card-body');
 
-    // Créer le titre de la carte
-    const cardTitle = document.createElement('h5');
-    cardTitle.classList.add('card-title');
-    cardTitle.textContent = documentTitle;
+    // Créer la date d'upload du document dans la carte
+    const cardTextUploadDate = document.createElement('p');
+    cardTextUploadDate.classList.add('card-text');
+    cardTextUploadDate.textContent = documentDateUploaded;
 
-    // Créer le texte de la carte
-    const cardText = document.createElement('p');
-    cardText.classList.add('card-text');
-    cardText.textContent = capitalizedFirstLetter(documentContent);
+    // Créer le texte descriptif de la carte
+    const cardTextDescription = document.createElement('p');
+    cardTextDescription.classList.add('card-text');
+    cardTextDescription.textContent = capitalizedFirstLetter(documentDescription);
 
     // Ajouter les éléments au corps de la carte
-    cardBody.appendChild(cardTitle);
-    cardBody.appendChild(cardText);
+    cardBody.appendChild(cardTextUploadDate);
+    cardBody.appendChild(cardTextDescription);
 
     // Ajouter l'en-tête et le corps à la carte
     card.appendChild(cardHeader);
     card.appendChild(cardBody);
+
+    // Ajouter le titre de la carte au header de la carte
+    cardHeader.appendChild(cardHeaderTitle);
 
     // Ajouter la carte à l'élément de carte
     documentCard.appendChild(card);

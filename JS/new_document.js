@@ -4,6 +4,7 @@ const userId = returnUserId();
 let checkedKeywords = [];
 let checkedClasses = [];
 let selectedFile;
+let pathDocument;
 
 
 window.onload = function () {
@@ -125,6 +126,8 @@ async function selectFile() {
 async function saveFile(updatedFile, extensionFile) {
     try {
         const directoryHandle = await window.showDirectoryPicker();
+        pathDocument = directoryHandle;
+        console.log(pathDocument);
         const fileHandle = await directoryHandle.getFileHandle(updatedFile.name + extensionFile, {
             create: true
         });
@@ -164,7 +167,8 @@ document.getElementById('create-new-document').addEventListener('submit', async 
     axios.post(paperEndPoint, {
             paperName,
             paperDescription,
-            userId: userId
+            userId: userId,
+            paperUploadDate: date
         })
         .then((response) => {
             const paperId = response.data.paperId;
