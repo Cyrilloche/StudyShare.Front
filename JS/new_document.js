@@ -151,7 +151,10 @@ document.getElementById('create-new-document').addEventListener('submit', async 
     const formDataDocument = new FormData(this);
     const paperName = formDataDocument.get('file-name');
     const paperDescription = formDataDocument.get('file-description');
-    const date = Date.now();
+    const date = new Date();
+    const formattedDate = date.toISOString();
+    console.log(date);
+    console.log(typeof (date));
 
     let extensionFile = getExtensionFile(selectedFile.name);
     const newFileName = date + '_' + paperName;
@@ -168,9 +171,10 @@ document.getElementById('create-new-document').addEventListener('submit', async 
             paperName,
             paperDescription,
             userId: userId,
-            paperUploadDate: date
+            paperUploadDate: formattedDate
         })
         .then((response) => {
+            console.log(response.data);
             const paperId = response.data.paperId;
             console.log('ID du document créé :', paperId);
 
