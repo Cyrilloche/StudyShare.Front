@@ -37,11 +37,24 @@
                 <div>
                     <h2>Bienvenue <span id="welcomeUser"></span></h2>
                 </div>
+                <div>
+                    <div class="btn-group dropend">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Trier par
+                        </button>
+                        <ul class="dropdown-menu">
+                            <div id="sortCards">
+                                <li class="list-group-item"><input class="form-check-input me-1" type="checkbox"
+                                        value="1"><span> Date</span></li>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-secondary" type="submit">Search</button>
                 </form>
-            </div>
         </nav>
 
 

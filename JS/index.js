@@ -1,5 +1,4 @@
-console.log("Hello World !");
-
+/////////////////////////////////// POST ///////////////////////////////////
 document.getElementById("connectionUser").addEventListener("submit", function (event) {
     event.preventDefault();
     var formData = new FormData(this);
@@ -17,26 +16,25 @@ document.getElementById("connectionUser").addEventListener("submit", function (e
         console.log(passwordUser);
 
         axios({
-            method: "post",
-            url: "http://localhost:5037/api/Authentication/SignIn",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: {
-                userEmail: emailUser,
-                userPassword: passwordUser
-            }
-        })
-        .then(function (response) {
-            console.log(response.data);
-            localStorage.setItem('token', response.data);
-            window.location.href = "../HTML/Home.html";
-        })
-        .catch(function (error) {
-            console.error('Il y a eu un problème avec la requête axios:', error);
-        });
+                method: "post",
+                url: "http://localhost:5037/api/Authentication/SignIn",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    userEmail: emailUser,
+                    userPassword: passwordUser
+                }
+            })
+            .then(function (response) {
+                console.log(response.data);
+                localStorage.setItem('token', response.data);
+                window.location.href = "../HTML/Home.html";
+            })
+            .catch(function (error) {
+                console.error('Il y a eu un problème avec la requête axios:', error);
+            });
     } else {
         console.error('Email and password are required.');
     }
-
 });

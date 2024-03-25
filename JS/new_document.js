@@ -126,8 +126,6 @@ async function selectFile() {
 async function saveFile(updatedFile, extensionFile) {
     try {
         const directoryHandle = await window.showDirectoryPicker();
-        pathDocument = directoryHandle;
-        console.log(pathDocument);
         const fileHandle = await directoryHandle.getFileHandle(updatedFile.name + extensionFile, {
             create: true
         });
@@ -149,15 +147,14 @@ document.getElementById('create-new-document').addEventListener('submit', async 
 
     // Récupération des données du formulaire
     const formDataDocument = new FormData(this);
-    const paperName = formDataDocument.get('file-name');
+    const paperName = formatDocumentName(formDataDocument.get('file-name'));
     const paperDescription = formDataDocument.get('file-description');
     const date = new Date();
+    const dateForName = Date.now();
     const formattedDate = date.toISOString();
-    console.log(date);
-    console.log(typeof (date));
 
     let extensionFile = getExtensionFile(selectedFile.name);
-    const newFileName = date + '_' + paperName;
+    const newFileName = dateForName + '_' + paperName;
 
     // Créer un nouvel objet File avec le nouveau nom
     const updatedFile = new File([selectedFile], newFileName, {
@@ -200,7 +197,6 @@ document.getElementById('create-new-document').addEventListener('submit', async 
             console.error('Erreur lors de la création du document :', error);
         });
 });
-
 
 /////////////////////////////////// HTML ///////////////////////////////////
 // Fonction création descheckbox des mots-clés
@@ -319,4 +315,8 @@ function getExtensionFile(fileName) {
         }
     }
     return extension;
+}
+
+function formatDocumentName(fileName) {
+    return fileName.replace(' ', '_');
 }

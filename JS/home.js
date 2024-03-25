@@ -1,10 +1,12 @@
 const token = getTokenFromLocalStorage();
 const userId = returnUserId();
+let cards = [];
 
 window.onload = function () {
     fetchAndDisplayDocuments();
 }
 
+/////////////////////////////////// CONFIG ///////////////////////////////////
 // Récupération de l'id user à partir du token
 function getUserIdFromToken(token) {
     const tokenParts = token.split('.');
@@ -24,6 +26,7 @@ function returnUserId() {
     return userId;
 }
 
+/////////////////////////////////// GET ///////////////////////////////////
 // Fonction pour récupérer les données utilisateur
 async function fetchUserData() {
     try {
@@ -39,7 +42,6 @@ async function fetchUserData() {
         }
 
         const userData = await response.json();
-        console.log(userData);
         document.getElementById('welcomeUser').textContent = capitalizedFirstLetter(userData.userFirstname);
     } catch (error) {
         console.error('Erreur lors de la récupération des données utilisateur', error);
@@ -61,22 +63,20 @@ async function fetchAndDisplayDocuments() {
         }
 
         const papers = await response.json();
-        console.log(papers);
+        cards = papers;
 
-        addDocumentCardsToPage(papers); // Ajouter les cartes de document à la page
+        addDocumentCardsToPage(papers);
     } catch (error) {
         console.error('Erreur lors de la récupération des documents', error);
     }
 }
 
-
-
+/////////////////////////////////// HTML ///////////////////////////////////
 // Fonction pour créer dynamiquement un encart représentant un document
 function createDocumentCard(doc) {
     const documentTitle = doc.paperName;
     const documentDateUploaded = doc.paperUploadDate;
     const documentDescription = doc.paperDescription;
-    console.log(typeof (documentDateUploaded));
 
     // Créer l'élément de carte
     const documentCard = document.createElement('div');
@@ -125,7 +125,6 @@ function createDocumentCard(doc) {
     return documentCard;
 }
 
-
 function addDocumentCardsToPage(documents) {
     const documentsContainer = document.getElementById('documentsContainer');
 
@@ -135,6 +134,7 @@ function addDocumentCardsToPage(documents) {
     });
 }
 
+/////////////////////////////////// TOOLS ///////////////////////////////////
 function capitalizedFirstLetter(word) {
     return word.charAt(0).toUpperCase() + word.slice(1)
 }

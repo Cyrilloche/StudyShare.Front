@@ -1,9 +1,11 @@
 const token = getTokenFromLocalStorage();
 const userId = returnUserId();
 
-fetchUserData(userId);
+window.onload = function () {
+    fetchUserData(userId);
+};
 
-
+/////////////////////////////////// CONFIG ///////////////////////////////////
 // Récupération de l'id user à partir du token
 function getUserIdFromToken(token) {
     const tokenParts = token.split('.');
@@ -23,6 +25,8 @@ function returnUserId() {
     return userId;
 }
 
+
+/////////////////////////////////// GET ///////////////////////////////////
 // Fonction pour récupérer les données utilisateur
 async function fetchUserData(userId) {
     try {
@@ -38,7 +42,6 @@ async function fetchUserData(userId) {
         }
 
         const userData = await response.json();
-        console.log(userData);
         document.getElementById('welcomeUser').textContent = capitalizedFirstLetter(userData.userFirstname);
         return userData;
     } catch (error) {
@@ -46,6 +49,7 @@ async function fetchUserData(userId) {
     }
 }
 
+/////////////////////////////////// PUT ///////////////////////////////////
 document.getElementById('updateUserInformation').addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -112,6 +116,7 @@ document.getElementById('updateUserPassword').addEventListener('submit', async f
 
 })
 
+/////////////////////////////////// TOOLS ///////////////////////////////////
 function capitalizedFirstLetter(word) {
     return word.charAt(0).toUpperCase() + word.slice(1)
 }
